@@ -14,20 +14,26 @@ const Index = () => {
 
   var handleChange = (event) => {
 
-    actions.updateName.payload.name = event.target.value;
-    dispatch(actions.updateName);
+    switch(event.target.id)
+    {
+      case 'name':
+        actions.updateName.payload.name = event.target.value;
+        dispatch(actions.updateName);
+        break;
+
+      case 'roll':
+        actions.updateRoll.payload.roll = event.target.value;
+        dispatch(actions.updateRoll);
+        break;
+
+      case 'id':
+        actions.updateId.payload.id = event.target.value;
+        dispatch(actions.updateId);
+    }
     
-    console.log(state);
-    //console.log(history);
   }
 
   var handleClick = (event) => {
-
-    actions.updateRoll.payload.roll = "2018UGCS002R";
-    dispatch(actions.updateRoll);
-
-    actions.updateId.payload.id = "LC201";
-    dispatch(actions.updateId);
 
     console.log(state);
     //console.log(history);
@@ -35,11 +41,21 @@ const Index = () => {
 
   return (
     <div className="container">
-      <form className="row mt-5">
+      <form className="mt-5">
         <div className="form-group">
           <label for="Name">Name</label>
-          <input type="text" class="form-control" id="Name" placeholder="Name" onChange={handleChange}></input>
-          <button type="button" className="btn waves-effect waves-light" onClick={handleClick}>Submit</button>
+          <input type="text" class="form-control" id="name" placeholder="Name" onChange={handleChange}></input>
+        </div>
+        <div className="form-group row">
+          <label for="Roll">Roll</label>
+          <input type="text" class="form-control" id="roll" placeholder="Roll" onChange={handleChange}></input>
+        </div>
+        <div className="form-group row">
+          <label for="Id">Id</label>
+          <input type="text" class="form-control" id="id" placeholder="Id" onChange={handleChange}></input>
+        </div>
+        <div className="form-group row">
+          <button type="button" className="btn waves-effect waves-light" onClick={handleClick}>Show</button>
         </div>
       </form>
     </div>
