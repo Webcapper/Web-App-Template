@@ -4,8 +4,7 @@ import reducers from './reducers';
 
 var state = {
     name: "",
-    roll: "",
-    id: ""
+    email: "",
 }
 
 var combinedReducer = combineReducers(reducers);

@@ -8,30 +8,20 @@ var name = (state = [], action) => {
     }
 }
 
-var roll = (state = [], action) => {
+var email = (state = [], action) => {
     switch (action.type) {
-        case 'updateRoll':
-            state = action.payload.roll;
+        case 'updateEmail':
+            state = action.payload.email;
             return state;
         default:
             return state
     }
 }
 
-var id = (state = [], action) => {
-    switch (action.type) {
-        case 'updateId':
-            state = action.payload.id;
-            return state;
-        default:
-            return state
-    }
-}
 
 var reducers = {
     name,
-    roll,
-    id
+    email
 }
 
 export default reducers;

@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb+srv://prskid1000:nIELmPiB3vZ4YkWQ@cluster0-qxsqv.mongodb.net/cehg?retryWrites=true&w=majority';
+var mongoDB = 'mongodb+srv://prskid1000:nIELmPiB3vZ4YkWQ@cluster0-qxsqv.mongodb.net/wellcart?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB Connection Error'));
@@ -24,8 +24,14 @@ app.use(cookieParser());
 
 const control = require('./controller/control');
 
-app.post('/post', control.Post);
-app.get('/get', control.Get);
+app.post('/getcart', control.getCart);
+app.post('/createcart', control.createCart);
+app.post('/deletecartitem', control.deleteCartItem);
+app.post('/addcartitem', control.addCartItem);
+
+app.post('/additem', control.addItem);
+app.post('/removeitem', control.removeItem);
+app.get('/getitems', control.getItems);
 
 app.listen(process.env.PORT || 3001,
     () => console.log("Server is running..."));

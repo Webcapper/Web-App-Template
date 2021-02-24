@@ -7,19 +7,12 @@ var actions = {
         }
     },
 
-    updateRoll:{
-        type: 'updateRoll',
+    updateEmail:{
+        type: 'updateEmail',
         payload: {
-            roll: "Default"
+            email: "Default"
         }
     },
-
-    updateId:{
-        type: 'updateId',
-        payload: {
-            id: "Default"
-        }
-    }
 
 }
 
