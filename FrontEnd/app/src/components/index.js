@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React from "react";
+import { React, useEffect} from "react";
 import '../style/main.css';
 import actions from '../redux/actions';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,22 +15,98 @@ const Index = () => {
   const history = useHistory();
 
   const responseFacebook = (response) => {
-    actions.updateName.payload.name = response.name;
-    actions.updateEmail.payload.email = response.email;
-    dispatch(actions.updateName);
-    dispatch(actions.updateEmail);
-    //console.log(response);
-    history.push('/shopping');
+
+    var data = {
+      userid: response.email
+    }
+
+    axios.get("https://prskid1000.herokuapp.com/getitems", {
+      "Content-Type": "application/json"
+    })
+      .then(res => {
+        if (res.data.success === "True") {
+          //console.log('Login Success: currentUser:', response.profileObj);
+          actions.updateName.payload.name = response.name;
+          actions.updateEmail.payload.email = response.email;
+          actions.updateItems.payload.items = res.data.data;
+          dispatch(actions.updateItems);
+          dispatch(actions.updateName);
+          dispatch(actions.updateEmail);
+          axios.post("https://prskid1000.herokuapp.com/getcart", data, {
+            "Content-Type": "application/json"
+          })
+            .then(rpy => {
+              
+              if (rpy.data.success === "False") {
+                axios.post("https://prskid1000.herokuapp.com/createcart", data, {
+                  "Content-Type": "application/json"
+                }).then(ans => {
+                  //console.log(ans.data.data.cart);
+                  actions.setCartItem.payload.items = ans.data.data.cart;
+                  dispatch(actions.setCartItem);
+                  //console.log(state);
+                  history.push('/shopping');
+                });
+              }
+              else {
+                //console.log(rpy.data.data.cart);
+                actions.setCartItem.payload.items = rpy.data.data.cart;
+                dispatch(actions.setCartItem);
+                //console.log(state);
+                history.push('/shopping');
+              }
+            });
+        }
+      });
   }
 
-  const onSuccess = (res) => {
-    console.log('Login Success: currentUser:', res.profileObj);
-    actions.updateName.payload.name = res.profileObj.name;
-    actions.updateEmail.payload.email = res.profileObj.email;
-    dispatch(actions.updateName);
-    dispatch(actions.updateEmail);
-    //console.log(state);
-    history.push('/shopping');
+  const onSuccess = (response) => {
+
+    var data = {
+      userid: response.profileObj.email
+    }
+
+    console.log(response.profileObj.email);
+
+    axios.get("https://prskid1000.herokuapp.com/getitems", {
+      "Content-Type": "application/json"
+    })
+      .then(res => {
+        if (res.data.success === "True") {
+          //console.log('Login Success: currentUser:', response.profileObj);
+          actions.updateName.payload.name = response.profileObj.name;
+          actions.updateEmail.payload.email = response.profileObj.email;
+          actions.updateItems.payload.items = res.data.data;
+          dispatch(actions.updateItems);
+          dispatch(actions.updateName);
+          dispatch(actions.updateEmail);
+          axios.post("https://prskid1000.herokuapp.com/getcart", data, {
+            "Content-Type": "application/json"
+          })
+          .then(rpy => {
+            if(rpy.data.success === "False")
+            {
+              axios.post("https://prskid1000.herokuapp.com/createcart", data, {
+                "Content-Type": "application/json"
+              }).then(ans => {
+                //console.log(ans.data.data.cart);
+                actions.setCartItem.payload.items = ans.data.data.cart;
+                dispatch(actions.setCartItem);
+                //console.log(state);
+                history.push('/shopping');
+              });
+            }
+            else
+            {
+              //console.log(rpy.data.data.cart);
+              actions.setCartItem.payload.items = rpy.data.data.cart;
+              dispatch(actions.setCartItem);
+              //console.log(state);
+              history.push('/shopping');
+            }
+          });
+        }
+      });
   };
  
   const onFailure = (res) => {

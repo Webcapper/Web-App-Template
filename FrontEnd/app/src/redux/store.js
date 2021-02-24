@@ -5,6 +5,8 @@ import reducers from './reducers';
 var state = {
     name: "",
     email: "",
+    items: [],
+    cart: []
 }
 
 var combinedReducer = combineReducers(reducers);

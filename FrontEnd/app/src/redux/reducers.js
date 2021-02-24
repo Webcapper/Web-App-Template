@@ -1,3 +1,5 @@
+
+
 var name = (state = [], action) => {
     switch (action.type) {
         case 'updateName':
@@ -18,10 +20,42 @@ var email = (state = [], action) => {
     }
 }
 
+var items = (state = [], action)  => {
+    switch (action.type) {
+        case 'updateItems':
+            state = action.payload.items;
+            return state;
+        default:
+            return state
+    }
+}
+
+var cart = (state = [], action) => {
+    switch (action.type) {
+
+        case 'setCartItem':
+            state = action.payload.items;
+            return state;
+
+        case 'addCartItem':
+            state.push([action.payload.item]);
+            return state;
+
+        case 'deleteCartItem':
+            action.payload.cart.splice(action.payload.idx, 1);
+            state = action.payload.cart;
+            return state;
+
+        default:
+            return state
+    }
+}
 
 var reducers = {
     name,
-    email
+    email,
+    items,
+    cart
 }
 
 export default reducers;
